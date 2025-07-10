@@ -1,0 +1,14 @@
+Login
+    Patient Login
+        Username,Password from DB
+        Book Appointment
+            Date,Time,Remarks
+        View Appointment
+        Delete Appointment
+        Update Profile
+    Admin Login
+        View Appointments
+        Delete Appointments
+Signup
+    Patient Signup
+        Username,Password,Email,Phone

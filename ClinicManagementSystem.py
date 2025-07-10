@@ -13,8 +13,8 @@ MAIL TEXT
 )
 """)
 class Main:
-    def __init__(self, root):
-        self.root = root
+    def __init__(self, window):
+        self.root = window
         self.root.title("Clinic Management System")
         self.root.geometry("800x800")
         self.createLogin()
@@ -33,17 +33,65 @@ class Main:
         self.passwordLabel.grid(row=1, column=0)
         self.passwordEntry = tk.Entry(self.root,show="*", font=("arial",14),width=20)
         self.passwordEntry.grid(row=1, column=1)
-        def login():
-            pass
-        def signup():
-            self.clear_window()
-            self.usernameLabel = tk.Label(self.root, text="Username : ",font=("arial",18))
-            self.usernameLabel.grid(row=0, column=0,padx=10, pady=10)
-        self.loginButton = tk.Button(self.root,text="Login",command=login,width=12,bg="#0000CC",fg="#FFFFFF",font=("arial",12,"bold"),border=(5))
+
+        self.loginButton = tk.Button(self.root,text="Login",command=self.login,width=12,bg="#0000CC",fg="#FFFFFF",font=("arial",12,"bold"),bd=5)
         self.loginButton.grid(row=2, column=0, columnspan=2,pady=20)
-        self.signupButton = tk.Button(self.root, text="Sign Up", command=signup, width=12, bg="#00CC00", fg="#FFFFFF",
-                                     font=("arial", 12,"bold"), border=(5))
+        self.signupButton = tk.Button(self.root, text="Sign Up", command=self.signup, width=12, bg="#00CC00", fg="#FFFFFF",
+                                     font=("arial", 12,"bold"), bd=5)
         self.signupButton.grid(row=3, column=0,columnspan=2)
+
+    def login(self):
+        username = self.usernameEntry.get()
+        password = self.passwordEntry.get()
+        if username == "" or password == "":
+            messagebox.showerror("Error","No username or password")
+        else:
+            pwd=db.execute("SELECT PASSWORD FROM users WHERE USERNAME=?", (username,)).fetchone()
+            if pwd[0]!=password:
+                messagebox.showerror("Error","Incorrect username or password")
+            else:
+                messagebox.showinfo("Success","Login successful")
+
+    def signup(self):
+        self.clear_window()
+        self.usernameLabel = tk.Label(self.root, text="Username : ", font=("arial", 18))
+        self.passwordLabel = tk.Label(self.root, text="Password : ", font=("arial", 18))
+        self.usernameEntry = tk.Entry(self.root, font=("arial", 14), width=20)
+        self.passwordEntry = tk.Entry(self.root, show="*", font=("arial", 14), width=20)
+        self.confirmPasswordLabel = tk.Label(self.root, text="Confirm Password : ", font=("arial", 18))
+        self.confirmPasswordEntry = tk.Entry(self.root, show="*", font=("arial", 14), width=20)
+        self.phoneNumberLabel = tk.Label(self.root, text="Phone Number: ", font=("arial", 18))
+        self.phoneNumberEntry = tk.Entry(self.root, font=("arial", 14), width=20)
+        self.emailLabel = tk.Label(self.root, text="Email : ", font=("arial", 18))
+        self.emailEntry = tk.Entry(self.root, font=("arial", 14), width=20)
+        self.submitButton = tk.Button(self.root, text="Sign Up", width=12, font=("arial", 12, "bold"))
+        self.usernameLabel.grid(row=0, column=0, pady=10)
+        self.usernameEntry.grid(row=0, column=1, pady=10)
+        self.passwordLabel.grid(row=1, column=0, pady=10)
+        self.passwordEntry.grid(row=1, column=1, pady=10)
+        self.confirmPasswordLabel.grid(row=2, column=0, pady=10)
+        self.confirmPasswordEntry.grid(row=2, column=1, pady=10)
+        self.phoneNumberLabel.grid(row=3, column=0, pady=10)
+        self.phoneNumberEntry.grid(row=3, column=1, pady=10)
+        self.emailLabel.grid(row=4, column=0, pady=10)
+        self.emailEntry.grid(row=4, column=1, pady=10)
+        def passCheck():
+            cpwd = self.confirmPasswordEntry.get()
+            pwd = self.passwordEntry.get()
+            usrname = db.execute("SELECT * FROM users WHERE USERNAME=?", (self.usernameEntry.get(),)).fetchone()
+            if pwd!=cpwd:
+                messagebox.showerror("Error","Passwords Do Not Match")
+            elif usrname:
+                messagebox.showerror("Error","Username already exists")
+            elif self.phoneNumberEntry.get()=="" or self.usernameEntry.get()=="" or self.passwordEntry.get()=="" or self.emailEntry.get()=="":
+                messagebox.showerror("Error","Please Enter All Fields")
+            else:
+                db.execute("INSERT INTO users(USERNAME,PASSWORD,PHONE,MAIL) VALUES(?,?,?,?)",(self.usernameEntry.get(), self.passwordEntry.get(), self.phoneNumberEntry.get(), self.emailEntry.get()))
+                conn.commit()
+                messagebox.showinfo("Success","User Created!")
+                self.createLogin()
+        self.submitButton = tk.Button(self.root, text="Sign Up", command=passCheck, width=12, bg="#00CC00", fg="#FFFFFF", font=("arial", 12, "bold"), bd=5)
+        self.submitButton.grid(row=5, column=0, pady=10)
 root = tk.Tk()
 app = Main(root)
 root.mainloop()
