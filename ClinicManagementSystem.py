@@ -46,9 +46,12 @@ class Main:
         if username == "" or password == "":
             messagebox.showerror("Error","No username or password")
         else:
-            pwd=db.execute("SELECT PASSWORD FROM users WHERE USERNAME=?", (username,)).fetchone()
-            if pwd[0]!=password:
-                messagebox.showerror("Error","Incorrect username or password")
+            usr = db.execute("SELECT USERNAME FROM users WHERE USERNAME LIKE ?", ('%' + username + '%',)).fetchone()
+            pwd=db.execute("SELECT PASSWORD FROM users WHERE USERNAME=?", (usr,)).fetchone()
+            if pwd is None:
+                messagebox.showerror("Error", "User Doesn't exist")
+            elif pwd[0]!=password:
+                messagebox.showerror("Error", "Incorrect username or password")
             else:
                 messagebox.showinfo("Success","Login successful")
 
@@ -78,10 +81,10 @@ class Main:
         def passCheck():
             cpwd = self.confirmPasswordEntry.get()
             pwd = self.passwordEntry.get()
-            usrname = db.execute("SELECT * FROM users WHERE USERNAME=?", (self.usernameEntry.get(),)).fetchone()
+            username = db.execute("SELECT * FROM users WHERE USERNAME=?", (self.usernameEntry.get(),)).fetchone()
             if pwd!=cpwd:
                 messagebox.showerror("Error","Passwords Do Not Match")
-            elif usrname:
+            elif username:
                 messagebox.showerror("Error","Username already exists")
             elif self.phoneNumberEntry.get()=="" or self.usernameEntry.get()=="" or self.passwordEntry.get()=="" or self.emailEntry.get()=="":
                 messagebox.showerror("Error","Please Enter All Fields")

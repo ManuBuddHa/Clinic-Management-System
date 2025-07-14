@@ -2,13 +2,16 @@ Login
     Patient Login
         Username,Password from DB
         Book Appointment
-            Date,Time,Remarks
+            Date,Time,Remarks,Prescription
         View Appointment
         Delete Appointment
         Update Profile
     Admin Login
         View Appointments
+        Add Prescription
         Delete Appointments
+        Assign Meds
+        Add Meds
 Signup
     Patient Signup
-        Username,Password,Email,Phone
+        Username,Password,Email,Phone,DOB
