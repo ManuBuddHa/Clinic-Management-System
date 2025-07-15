@@ -46,14 +46,17 @@ class Main:
         if username == "" or password == "":
             messagebox.showerror("Error","No username or password")
         else:
-            usr = db.execute("SELECT USERNAME FROM users WHERE USERNAME LIKE ?", ('%' + username + '%',)).fetchone()
-            pwd=db.execute("SELECT PASSWORD FROM users WHERE USERNAME=?", (usr,)).fetchone()
+            pwd=db.execute("SELECT PASSWORD FROM users WHERE USERNAME=?", (username,)).fetchone()
             if pwd is None:
                 messagebox.showerror("Error", "User Doesn't exist")
             elif pwd[0]!=password:
                 messagebox.showerror("Error", "Incorrect username or password")
             else:
                 messagebox.showinfo("Success","Login successful")
+                if username=="admin":
+                    self.admin_window()
+                else:
+                    self.user_window()
 
     def signup(self):
         self.clear_window()
@@ -67,7 +70,6 @@ class Main:
         self.phoneNumberEntry = tk.Entry(self.root, font=("arial", 14), width=20)
         self.emailLabel = tk.Label(self.root, text="Email : ", font=("arial", 18))
         self.emailEntry = tk.Entry(self.root, font=("arial", 14), width=20)
-        self.submitButton = tk.Button(self.root, text="Sign Up", width=12, font=("arial", 12, "bold"))
         self.usernameLabel.grid(row=0, column=0, pady=10)
         self.usernameEntry.grid(row=0, column=1, pady=10)
         self.passwordLabel.grid(row=1, column=0, pady=10)
@@ -95,6 +97,14 @@ class Main:
                 self.createLogin()
         self.submitButton = tk.Button(self.root, text="Sign Up", command=passCheck, width=12, bg="#00CC00", fg="#FFFFFF", font=("arial", 12, "bold"), bd=5)
         self.submitButton.grid(row=5, column=0, pady=10)
+
+    def admin_window(self):
+        root.destroy()
+
+    def user_window(self):
+        messagebox.showinfo("Success","User Created!")
+
+
 root = tk.Tk()
 app = Main(root)
 root.mainloop()
