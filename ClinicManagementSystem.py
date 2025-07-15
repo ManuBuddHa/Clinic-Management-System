@@ -1,6 +1,6 @@
 import sqlite3
 import tkinter as tk
-from tkinter import ttk, messagebox
+from tkinter import messagebox
 conn = sqlite3.connect('clinic.db')
 db = conn.cursor()
 db.execute("""
@@ -52,10 +52,10 @@ class Main:
             elif pwd[0]!=password:
                 messagebox.showerror("Error", "Incorrect username or password")
             else:
-                messagebox.showinfo("Success","Login successful")
                 if username=="admin":
                     self.admin_window()
                 else:
+                    messagebox.showinfo("Success", "Login successful")
                     self.user_window()
 
     def signup(self):
@@ -99,10 +99,22 @@ class Main:
         self.submitButton.grid(row=5, column=0, pady=10)
 
     def admin_window(self):
-        root.destroy()
+        messagebox.showinfo("Admin","Welcome to Clinic Management System")
+
+        def add_med():
+            messagebox.showinfo("Working on it", "Medicine Import Working")
+            # from Medicine import Main
+            # Main.med_manage()
+
+        self.add_medicine_button = tk.Button(self.root, text="Medicine Inventory", font=("Ubuntu", 16), bd=2,command=add_med)
+        self.add_medicine_button.grid(row=2, column=1)
 
     def user_window(self):
-        messagebox.showinfo("Success","User Created!")
+        username = self.usernameEntry.get()
+        self.clear_window()
+        self.username = tk.Label(self.root, text=f"Hello, {username}", font=("arial", 18))
+        self.username.grid(row=0, column=0, pady=10)
+
 
 
 root = tk.Tk()
