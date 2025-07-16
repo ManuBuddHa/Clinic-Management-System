@@ -7,9 +7,9 @@ Login
         Update Profile
     #Admin Login - Username,Password from DB
         View Appointments
-        Add Prescription
-        Delete Appointments
-        Assign Meds
+            Add Prescription
+            Delete Appointments
+            Assign Meds
         Add Meds
 #Signup
 #   Patient Signup

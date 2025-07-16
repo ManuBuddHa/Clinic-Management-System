@@ -100,14 +100,18 @@ class Main:
 
     def admin_window(self):
         messagebox.showinfo("Admin","Welcome to Clinic Management System")
+        self.clear_window()
 
         def add_med():
             messagebox.showinfo("Working on it", "Medicine Import Working")
-            # from Medicine import Main
-            # Main.med_manage()
+
+        def view_appointments():
+            messagebox.showinfo("Working on it", "Appointments")
 
         self.add_medicine_button = tk.Button(self.root, text="Medicine Inventory", font=("Ubuntu", 16), bd=2,command=add_med)
         self.add_medicine_button.grid(row=2, column=1)
+        self.view_appointment = tk.Button(self.root, text="View Appointments", font=("Ubuntu", 16), bg="blue", fg="white", bd=2,command=view_appointments)
+        self.view_appointment.grid(row=2, column=2)
 
     def user_window(self):
         username = self.usernameEntry.get()
