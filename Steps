@@ -11,8 +11,10 @@ Login
             Delete Appointments
             Assign Meds
         Add Meds
+LogOut
+
 #Signup
 #   Patient Signup
 #        Username,Password,Email,Phone,DOB
-
+#Logout
 # -> Completed

@@ -112,12 +112,16 @@ class Main:
         self.add_medicine_button.grid(row=2, column=1)
         self.view_appointment = tk.Button(self.root, text="View Appointments", font=("Ubuntu", 16), bg="blue", fg="white", bd=2,command=view_appointments)
         self.view_appointment.grid(row=2, column=2)
+        self.logout = tk.Button(self.root, text="Log Out", font=("Ubuntu",16),bg="red", fg="white", bd=2, command=self.createLogin)
+        self.logout.grid(row=1,column=5)
 
     def user_window(self):
         username = self.usernameEntry.get()
         self.clear_window()
         self.username = tk.Label(self.root, text=f"Hello, {username}", font=("arial", 18))
         self.username.grid(row=0, column=0, pady=10)
+        self.logout = tk.Button(self.root, text="Log Out", font=("Ubuntu", 16), bg="red", fg="white", bd=2,command=self.createLogin)
+        self.logout.grid(row=1, column=5)
 
 
 
